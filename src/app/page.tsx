@@ -1,103 +1,111 @@
-import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import { Navbar } from "./components/Navbar";
+import { events } from "@/resources/dummyData";
+import { EventCard } from "./components/EventCard";
+import { ArrowRight, CreditCard, Lock, Ticket } from "lucide-react";
+import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <main className="w-full flex flex-col">
+      <section className="w-full h-screen landing-img flex flex-col justify-center items-center text-center  ">
+        <Navbar />
+        <div className="h-full px-5 sm:px-24 text-white flex flex-col justify-center items-center gap-4 bg-[#00000040]">
+          <h1 className=" text-4xl sm:text-6xl font-semibold">
+            Welcome to{" "}
+            <span className="text-primary font-bold italic">EventWing</span>{" "}
+            Your Ultimate Event Hub For AFIT!
+          </h1>
+          <span className="hidden sm:flex w-2/3 text-lg">
+            Discover, host, and attend the hottest events on campus. Whether
+            you&apos;re planning an unforgettable party, a club hangout, or
+            looking to grab tickets to the next big event — you&apos;re in the
+            right place.
+          </span>
+          <Button className="text-2xl h-14 w-fit">Get Started</Button>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+      </section>
+      <section className="mt-10 px-5 sm:px-20">
+        <div className="w-full flex items-center justify-between">
+          <h2 className="text-xl sm:text-3xl font-bold text-primary">
+            Upcoming Events
+          </h2>
+          <Link href={"/discover"}>
+            <button className="flex items-center gap-2 text-sm">
+              <span>View more</span>
+              <ArrowRight size={20} />
+            </button>
+          </Link>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 mt-4">
+          {events.map((item) => {
+            return (
+              <EventCard
+                key={item._id}
+                _id={item._id}
+                date={item.date}
+                img_url={item.img_url}
+                location={item.location}
+                name={item.name}
+                prices={item.prices}
+              />
+            );
+          })}
+        </div>
+      </section>
+      <section className="mt-20 px-5 sm:px-20">
+        <div className="w-full border rounded-xl shadow-md flex flex-col gap-10 sm:gap-20 p-10">
+          <div className="w-full flex flex-col sm:flex-row lg:gap-40 justify-between">
+            <div className="sm:w-2/3">
+              <span className="text-primary text-lg font-medium">
+                Host Events{" "}
+              </span>
+              <h2 className="text-4xl font-medium">
+                Host event, Create moments that move AFIT.
+              </h2>
+            </div>
+            <p className="hidden sm:flex w-2/3 text-left text-gray-400">
+              Our launchpad for student-led events. <br /> From idea to
+              execution, we give you the tools to create, promote, and manage
+              your events with ease whether it&apos;s a small gathering or a
+              major campus show.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-10">
+            <div className="flex flex-col gap-5 text-primary">
+              <CreditCard size={64} />
+              <div className="flex flex-col gap-2">
+                <h3 className="text-2xl font-semibold">Free event hosting</h3>
+                <span className="text-black">
+                  Let your ideas shine without worrying about cost. Hosting free
+                  events comes at no charge just set it up and go live.
+                </span>
+              </div>
+            </div>
+            <div className="flex flex-col gap-5 text-[#F62F63]">
+              <Ticket size={64} />
+              <div className="flex flex-col gap-2">
+                <h3 className="text-2xl font-semibold">Ticket management</h3>
+                <span className="text-black">
+                  Easily create, manage, and verify event tickets. Our system
+                  ensures smooth check-ins and real-time attendee tracking.
+                </span>
+              </div>
+            </div>
+            <div className="flex flex-col gap-5 text-[#38CCB2]">
+              <Lock size={64} />
+              <div className="flex flex-col gap-2">
+                <h3 className="text-2xl font-semibold">Built-in security</h3>
+                <span className="text-black">
+                  All transactions and tickets are securely encrypted. With
+                  admin-level permissions and real-time monitoring, you stay in
+                  control.
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
   );
 }
